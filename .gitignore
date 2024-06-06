@@ -1,4 +1,15 @@
 
 .spyproject
-
+venv
 .idea
+
+# ignore tex output
+report/ml-exam-report.aux
+report/ml-exam-report.bbl
+report/ml-exam-report.blg
+report/ml-exam-report.fdb_latexmk
+report/ml-exam-report.fls
+report/ml-exam-report.log
+report/ml-exam-report.out
+report/ml-exam-report.pdf
+report/ml-exam-report.synctex.gz
