@@ -1,8 +1,10 @@
-1. Dataset: 
-    Missing variables
-    plotting, value counts
+# Integrated_Notebook:
 
-Is onderscheid numeric <> niet numeric nodig?
++ Wat te voorspellen
++  The data seems to be evenly distributed, no shuffling is needed
+
+
+1. Is onderscheid numeric <> niet numeric nodig?
 <> algoritm
 
 2. Ik had in de opleiding begrepen dat er 3 output variabelen waren, profit, damage, profit - damage om een 'goede' klant te identificeren.
@@ -10,3 +12,4 @@ Is onderscheid numeric <> niet numeric nodig?
 
 3. stappen?
 - shuffling?
+
