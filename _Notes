@@ -1,15 +1,15 @@
-# Integrated_Notebook:
+# Integrated_Notebook?
 
-+ Wat te voorspellen
+* resultaten isolationForest : 9% outliers geïdentificeerd, dat lijkt me heel hoog.
+
+
 +  The data seems to be evenly distributed, no shuffling is needed
 
-
-1. Is onderscheid numeric <> niet numeric nodig?
-<> algoritm
-
-2. Ik had in de opleiding begrepen dat er 3 output variabelen waren, profit, damage, profit - damage om een 'goede' klant te identificeren.
+* add_indicator voegt per feature met missing values (8) een variabele toe om aan te geven of de feature == imputed
 
 
-3. stappen?
-- shuffling?
 
+
+Trainen Random Forest
+
+- standardizing is not needed 
