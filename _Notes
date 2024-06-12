@@ -1,6 +1,100 @@
-# Integrated_Notebook?
+# Vragen::
+
+## a very important consideration DATA PREPARATION is needed for score
+
+is that everything you do has to be redone for the scoring set, exactly as it was done for the training set! To avoid a mess with mean imputations and categorization etc, I will just stitch the two together, and do the changes - this is allowed, as long as you don't use the outcome!
+
+In the example solution the score and traning data are 'merged' (without the outcome) are treated in the same way and then divided.
+Is that a good approach?
+
+### Use data from the score set for imputing missing values???
+To decide on the approach for missing values???
+
+Misschien in ieder geval ook meebekijken, als een van de features in de score lijkt te ontbreken en deze heeft een grote impact in het model, ... heeft dit dan impact op de voorspelling,
+je introduceert een fout (guassian fout) bij een voorspelling van een feature / bij imputing a feature.
+### Misschien is het beter een feature niet mee te nemen in het model als deze voor alle te scoren clienten otnbreert
+
+=> Histogram analysis
+
+
+-----
+## Outliers
 
 * resultaten isolationForest : 9% outliers geïdentificeerd, dat lijkt me heel hoog.
+Bevestigt dat er geen outliers zijn???
+-----
+
+========================================================================================
+
+
+# Done::
+
+## to do beter staven ...
+Het blijkt dat in de top 20 missing features, er voor een heel aantal variabelen 53 instances missing waren. Vermoedelijk gaat het over dezelfde instances ging.
+Na export op basis van 1 van de opgelijste features en bleek dat dit inderdaad voor deze instances het geval was.
+
+Enkel voor deze waarden is er info:
+- spa_ic is 21x = 1 (2/21:  outcome_damage_ic = 1)
+- empl_ic is 40x = 0 (12/40:  outcome_damage_ic = 1)
+- married_cd is 53x = false (12/53::  outcome_damage_ic = 1)
+- claims_am is 20x = 0 (6/20:  outcome_damage_ic = 1)
+
+- spa_ic & claims_am & empl_ic is 6x ingevuld
+
+## kNN imputer for missing values
+
+
+## isolationForest to evaluate anomalies
+
+
+## RF_model for revenue: RandomforestRegressor
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimally found RF hyperparams after this random search: 
+{'n_estimators': 247, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 104, 'max_depth': 7, 'bootstrap': True}
+Train R2: 0.990
+Test R2: 0.955
+
+## RF_model for outcome_damage_inc: RandomforestClassifier
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimal hyperparameter values according to our random search: 
+{'n_estimators': 400, 'min_samples_split': 2, 'min_samples_leaf': 10, 'max_features': 119, 'max_depth': 2, 'bootstrap': False}
+Train accuracy of the refitted model: 1.000
+Test accuracy of the refitted model: 1.000
+              precision    recall  f1-score   support
+
+   no damage       1.00      1.00      1.00       724
+      damage       1.00      1.00      1.00       266
+
+    accuracy                           1.00       990
+   macro avg       1.00      1.00      1.00       990
+weighted avg       1.00      1.00      1.00       990
+
+## RF_model for oucome_damage: RandomforestRegressor
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimally found RF hyperparams after this random search: 
+{'n_estimators': 163, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 111, 'max_depth': 28, 'bootstrap': True}
+Train R2: 1.000
+Test R2: 1.000
+
+
+## Visual evaluation of CV results against accuracy / R2
+for parameters: 'param_max_depth', 'param_min_samples_leaf', 'param_n_estimators'
+- 
+
+## Extra check for tenure_mts = tenure_yrs
+It appears that for missing tenure_mts, tenure_ys is also missing
+=> Either tenure_yrs of tenure_mts is missing returns an empty DF
+train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].shape
+=> 0
+
+
+
+
+
+=======================================================================================================================
+
+
+
 
 
 +  The data seems to be evenly distributed, no shuffling is needed
@@ -13,3 +107,8 @@
 Trainen Random Forest
 
 - standardizing is not needed 
+
+
+
+
+
