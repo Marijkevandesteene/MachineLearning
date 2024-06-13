@@ -41,6 +41,25 @@ Enkel voor deze waarden is er info:
 
 - spa_ic & claims_am & empl_ic is 6x ingevuld
 
+## tenure_mts / tenunre
+
+
+Some conclusions (Bino)
+- no missing values inthe outcomes
+- a lot of missings in the scores
+- tenure_mts does have almost 10% missing --> perhaps we should not just drop it, but re-use the years !!
+<=> 
+
+- It appears that for missing tenure_mts, tenure_ys is also missing
+- Check wether either tenure_yrs or tenure_mts is missing returns an empty DF
+(do this before updating missing values)
+print("shape of dataframe where either tenure_mts of tenure_yrs is missing",train_V2[train_V2.loc[:,['tenure_mts','tenure_yrs']].isnull().sum(axis=1) == 1].shape)
+'shape of dataframe where either tenure_mts of tenure_yrs is missing (0, 53)'
+
+## scores uitmiddelen en categorische waarde gebruiken om aan te geven welke waarden al dan niet gebruikt werden
+het blijkt dat dat tot meer dan 30 combinaties leidt
+
+
 ## kNN imputer for missing values
 
 
