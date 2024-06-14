@@ -73,6 +73,13 @@ Optimally found RF hyperparams after this random search:
 Train R2: 0.990
 Test R2: 0.955
 
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimally found RF hyperparams after this random search: 
+{'n_estimators': 121, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 58, 'max_depth': 18, 'bootstrap': True}
+Train R2: 0.990
+Test R2: 0.956
+
+
 ## RF_model for outcome_damage_inc: RandomforestClassifier
 Fitting 5 folds for each of 100 candidates, totalling 500 fits
 Optimal hyperparameter values according to our random search: 
