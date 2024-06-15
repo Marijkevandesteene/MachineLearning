@@ -114,7 +114,10 @@ train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].
 => 0
 
 
+## Added learning curve and python file with common_used_functions
++ Learning curve
 
+## Looked at applying data 'manipulation' to score
 
 
 =======================================================================================================================
