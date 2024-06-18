@@ -114,9 +114,17 @@ train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].
 => 0
 
 
+## Added learning curve and python file with common_used_functions
++ Learning curve
+
+## Looked at applying data 'manipulation' to score
 
 
 
+# Executive summary (prompt in chatgpt)
+
+Write an executive summary to convince a hotel manager to apply the selected list of hotel guests. The list of hotel guests
+was determined running several algorithms on the training data. Cross-validation was applied, Random-forest, gbm, sVR
 =======================================================================================================================
 
 
@@ -133,8 +141,5 @@ train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].
 Trainen Random Forest
 
 - standardizing is not needed 
-
-
-
 
 

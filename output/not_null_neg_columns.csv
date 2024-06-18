@@ -1,0 +1,33 @@
+not_null_neg_columns,count
+[],1166
+['score5_neg'],458
+['score4_neg'],339
+['score3_neg'],331
+['score1_neg'],313
+['score2_neg'],312
+"['score1_neg', 'score5_neg']",157
+"['score3_neg', 'score5_neg']",154
+"['score4_neg', 'score5_neg']",142
+"['score2_neg', 'score3_neg']",134
+"['score3_neg', 'score4_neg']",133
+"['score1_neg', 'score2_neg']",132
+"['score1_neg', 'score4_neg']",130
+"['score2_neg', 'score5_neg']",128
+"['score2_neg', 'score4_neg']",120
+"['score1_neg', 'score3_neg']",116
+"['score1_neg', 'score2_neg', 'score3_neg']",69
+"['score1_neg', 'score2_neg', 'score5_neg']",68
+"['score2_neg', 'score3_neg', 'score4_neg']",67
+"['score3_neg', 'score4_neg', 'score5_neg']",67
+"['score1_neg', 'score3_neg', 'score4_neg']",64
+"['score1_neg', 'score3_neg', 'score5_neg']",61
+"['score2_neg', 'score4_neg', 'score5_neg']",57
+"['score1_neg', 'score2_neg', 'score4_neg']",50
+"['score2_neg', 'score3_neg', 'score5_neg']",49
+"['score1_neg', 'score4_neg', 'score5_neg']",41
+"['score1_neg', 'score2_neg', 'score3_neg', 'score4_neg']",31
+"['score2_neg', 'score3_neg', 'score4_neg', 'score5_neg']",29
+"['score1_neg', 'score2_neg', 'score3_neg', 'score5_neg']",28
+"['score1_neg', 'score3_neg', 'score4_neg', 'score5_neg']",24
+"['score1_neg', 'score2_neg', 'score4_neg', 'score5_neg']",20
+"['score1_neg', 'score2_neg', 'score3_neg', 'score4_neg', 'score5_neg']",10
