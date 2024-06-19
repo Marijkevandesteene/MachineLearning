@@ -27,7 +27,7 @@ prev_all_in_stay;previous stay at hotel with all-in formula indicator
 divorce;indicator divorce
 fam_adult_size;number of adults in family
 children_no;number of known children
-tenure_yrs;months as client in months
+tenure_mts;months as client in months
 tenure_yrs;years as client in years
 company_ic;indicator company card
 claims_no;number of claims against hotel
@@ -42,6 +42,7 @@ retired;retired indicator
 profit_am;total profit across visits (excluding last visit)
 profit_last_am;profit across second last visit
 gold_status;gold client profile
+income_am;income (added)
 profit_am;total profit across visits  (excluding last visit)
 score1_pos;positivity' score, given by staff, as quantile, from hotel 1
 score2_pos;positivity' score, given by staff, as quantile, from hotel 2
