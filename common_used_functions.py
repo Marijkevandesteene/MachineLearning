@@ -44,3 +44,41 @@ def plot_learning_curve(model, X, y, cv, num_show, metric=None):
     plt.legend(loc='best')
     
     return
+
+# Drop-column method for calculating feature importances
+# Defining a function to perform the drop-column importance
+def drop_col_feat_imp(model, X, y, random_state, verbose=False):
+    """Feature importance calculation using drop-column feature importances"""
+    from sklearn.base import clone 
+
+    model_clone = clone(model)  # You can use this to make a copy of a model :)
+    model_clone.random_state = random_state
+    model_clone.fit(X=X, y=y)
+    benchmark_score = model_clone.score(X=X, y=y)
+    importances = [None] * len(X.columns)
+    
+    # For each column: drop the column and retrain a model & score
+    for i, col in enumerate(X.columns):
+        if verbose:
+            print(f"Running for column {i}/{len(X.columns)}: {col}")
+        # Drop the column we are looping over
+        X_dropped = X.drop(col, axis=1)
+        
+        # Clone the model we already had in terms of hyperparams/settings
+        model_clone = clone(model)
+        model_clone.random_state = random_state  # Fixing the random state
+        
+        # Fit the model using the new data
+        model_clone.fit(X=X_dropped, y=y)  # fit using the X with column dropped
+        
+        # Predict/score
+        drop_col_score = model_clone.score(X=X_dropped, y=y)
+        
+        # Get importances and assign
+        importances[i] = benchmark_score - drop_col_score
+    
+    # Making Pandas DF with results
+    importances_df = pd.DataFrame(data={'feature': X.columns, 'importance': importances})
+    importances_df_sorted = importances_df.sort_values(by='importance', ascending=False)
+    
+    return importances_df_sorted
