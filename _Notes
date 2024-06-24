@@ -1,20 +1,18 @@
+
+
 # Vragen::
 
-## a very important consideration DATA PREPARATION is needed for score
+Te bekijken 
+lift curve
 
-is that everything you do has to be redone for the scoring set, exactly as it was done for the training set! To avoid a mess with mean imputations and categorization etc, I will just stitch the two together, and do the changes - this is allowed, as long as you don't use the outcome!
 
-In the example solution the score and traning data are 'merged' (without the outcome) are treated in the same way and then divided.
-Is that a good approach?
+For us, the lift curve is an interesting tool, as it shows how much benefit the model has when you use it for selection. Typically, the cutoff is also made by assessing the two quantities shown on the lift curve: either one cuts the list off at a certain amount of benefit ("this will make my list that much purer"), or one cuts it off at a desired sample ("I'm able to contact 300 clients, which coincides with 10% of the population"). Note that the first logic is slightly suspect: usually there is a discrepancy between how you got the data, and how your future actions will work ("my data are from an administrative data base, and now I will use an email to contact new clients"), which means that the exact numbers are to be taken with a grain of salt. The second logic is better: if you have to contact 300 clients, these are probably the 300 best you can find.
 
-### Use data from the score set for imputing missing values???
-To decide on the approach for missing values???
+# Plotting lift curve on the logreg4 model - binary classification
+import scikitplot as skplt
+skplt.metrics.plot_lift_curve(y_true=y_test, y_probas=y_pred_prob4, figsize=(8, 6));
 
-Misschien in ieder geval ook meebekijken, als een van de features in de score lijkt te ontbreken en deze heeft een grote impact in het model, ... heeft dit dan impact op de voorspelling,
-je introduceert een fout (guassian fout) bij een voorspelling van een feature / bij imputing a feature.
-### Misschien is het beter een feature niet mee te nemen in het model als deze voor alle te scoren clienten otnbreert
 
-=> Histogram analysis
 
 
 -----
@@ -119,6 +117,56 @@ train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].
 
 ## Looked at applying data 'manipulation' to score
 
+## Explainability
+
+Looking at tree-based feature importances we see that according to 
+1. feature importance 
+	0	profit_am	0.346637
+	1	nights_booked	0.323773
+	2	income_am	0.041613
+	3	profit_last_am	0.040630
+	4	presidential	0.036040
+2. Permutation feature importance
+	0	nights_booked	1.371450	0.139278
+	1	profit_am	1.355326	0.057785
+	2	presidential	0.058581	0.002814
+	3	income_am	0.034528	0.000321
+	4	shop_am	0.032894	0.001874
+3. drop-column feature importance
+	0	nights_booked	0.084504
+	1	profit_am	0.044256
+	2	presidential	0.012767
+	3	cab_requests	0.002097
+	4	tenure_mts	0.001627
+	
+	
+Looking at Linear surrogate explainability models we see that according to 
+1. Univariate regression: 
+	Most positive univariate betas:
+		presidential      2.792305
+		gold_status       0.965458
+		lactose_ic        0.619158
+		client_segment    0.321293
+		gluten_ic         0.308610
+
+	Most negative univariate betas:
+		avg_score_pos   -0.231379
+		gender          -0.197266
+		insurance_ic    -0.136384
+		dining_ic       -0.036779
+		divorce         -0.031825
+		
+This techniques indicates other features as more important than tree-based feature importance. 
+
+2. Multiple linear regression models
+             feature      coef
+	0         profit_am  0.389688
+	1     nights_booked -0.315662
+	2      presidential  0.185609
+	3    profit_last_am  0.112224
+	4         income_am  0.102620
+
+The features with the highest coefficients(absolute) are the features that were the most important features from the tree based techniques
 
 
 # Executive summary (prompt in chatgpt)
@@ -127,6 +175,9 @@ Write an executive summary to convince a hotel manager to apply the selected lis
 was determined running several algorithms on the training data. Cross-validation was applied and following algorithms were used Random-forest, gbm, sVR
 
 
+
+
+# 
 
 =======================================================================================================================
 
