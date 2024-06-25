@@ -1,21 +1,45 @@
+
+@Dries: fout bij SVcla voor damage occured.
+Door standardizing is de al dan niet damage niet meer binair, maar 
+
+
 # Vragen::
 
-## a very important consideration DATA PREPARATION is needed for score
 
-is that everything you do has to be redone for the scoring set, exactly as it was done for the training set! To avoid a mess with mean imputations and categorization etc, I will just stitch the two together, and do the changes - this is allowed, as long as you don't use the outcome!
 
-In the example solution the score and traning data are 'merged' (without the outcome) are treated in the same way and then divided.
-Is that a good approach?
+Te bekijken 
+lift curve
 
-### Use data from the score set for imputing missing values???
-To decide on the approach for missing values???
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve
 
-Misschien in ieder geval ook meebekijken, als een van de features in de score lijkt te ontbreken en deze heeft een grote impact in het model, ... heeft dit dan impact op de voorspelling,
-je introduceert een fout (guassian fout) bij een voorspelling van een feature / bij imputing a feature.
-### Misschien is het beter een feature niet mee te nemen in het model als deze voor alle te scoren clienten otnbreert
+Creating a lift curve directly out of the box in Python for a Random Forest Classifier may not be as straightforward as some other evaluation metrics like ROC curves or precision-recall curves. However, you can still create a lift curve by following these steps:
 
-=> Histogram analysis
+    Make predictions using your Random Forest Classifier on a test dataset.
+    Sort the predictions in descending order of probability.
+    Divide the predictions into bins or segments.
+    Calculate the cumulative sum of the target variable (e.g., number of positive cases) in each bin.
+    Plot the lift curve using libraries like Matplotlib or Seaborn.
 
+While Python libraries like scikit-learn provide tools for common evaluation metrics, creating a lift curve may require a bit more custom implementation. If you're interested, you can explore custom functions or packages that may assist in generating lift curves for your Random Forest Classifier.
+
+If you'd like more guidance on this or any other related topic, feel free to ask for further assistance!
+
+
+
+For us, the lift curve is an interesting tool, as it shows how much benefit the model has when you use it for selection. Typically, the cutoff is also made by assessing the two quantities shown on the lift curve: either one cuts the list off at a certain amount of benefit ("this will make my list that much purer"), or one cuts it off at a desired sample ("I'm able to contact 300 clients, which coincides with 10% of the population"). Note that the first logic is slightly suspect: usually there is a discrepancy between how you got the data, and how your future actions will work ("my data are from an administrative data base, and now I will use an email to contact new clients"), which means that the exact numbers are to be taken with a grain of salt. The second logic is better: if you have to contact 300 clients, these are probably the 300 best you can find.
+
+# Plotting lift curve on the logreg4 model - binary classification
+import scikitplot as skplt
+skplt.metrics.plot_lift_curve(y_true=y_test, y_probas=y_pred_prob4, figsize=(8, 6));
+
+
+# Learning curve
+What is more training data worth to me?
+should I invest in getting more data?
+if my training is computationally too heavy or too slow, can I subsample?
+is a train-test-holdout split benecial?
+do the hyperparameters trained on the 80% CV data hold for the 100% model?
 
 -----
 ## Outliers
@@ -66,43 +90,83 @@ het blijkt dat dat tot meer dan 30 combinaties leidt
 ## isolationForest to evaluate anomalies
 
 
-## RF_model for revenue: RandomforestRegressor
+## RF_model for profit: RandomforestRegressor (without outliers)
 Fitting 5 folds for each of 100 candidates, totalling 500 fits
 Optimally found RF hyperparams after this random search: 
-{'n_estimators': 247, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 104, 'max_depth': 7, 'bootstrap': True}
-Train R2: 0.990
-Test R2: 0.955
+{'n_estimators': 150, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 0.95, 'max_depth': 80, 'bootstrap': True}
+Train R2: 0.942
+Test R2: 0.748
 
+
+# RF_model for oucome_damage: RandomforestRegressor
 Fitting 5 folds for each of 100 candidates, totalling 500 fits
 Optimally found RF hyperparams after this random search: 
-{'n_estimators': 121, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 58, 'max_depth': 18, 'bootstrap': True}
-Train R2: 0.990
-Test R2: 0.956
+{'n_estimators': 150, 'min_samples_split': 4, 'min_samples_leaf': 4, 'max_features': 0.7, 'max_depth': 5, 'bootstrap': True}
+Train R2: 0.231
+Test R2: 0.079
 
-
-## RF_model for outcome_damage_inc: RandomforestClassifier
+## RF_model for outcome_damage_inc: RandomforestClassifier (2m15s)
 Fitting 5 folds for each of 100 candidates, totalling 500 fits
 Optimal hyperparameter values according to our random search: 
-{'n_estimators': 400, 'min_samples_split': 2, 'min_samples_leaf': 10, 'max_features': 119, 'max_depth': 2, 'bootstrap': False}
+{'n_estimators': 200, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 5, 'max_depth': None, 'bootstrap': False}
 Train accuracy of the refitted model: 1.000
-Test accuracy of the refitted model: 1.000
+Test accuracy of the refitted model: 0.739
               precision    recall  f1-score   support
 
-   no damage       1.00      1.00      1.00       724
-      damage       1.00      1.00      1.00       266
+   no damage       0.75      0.97      0.85      1100
+      damage       0.48      0.08      0.14       385
 
-    accuracy                           1.00       990
-   macro avg       1.00      1.00      1.00       990
-weighted avg       1.00      1.00      1.00       990
+    accuracy                           0.74      1485
+   macro avg       0.62      0.53      0.49      1485
+weighted avg       0.68      0.74      0.66      1485
+
+
+## RF_model for profit: RandomforestRegressor
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimally found RF hyperparams after this random search: 
+{'n_estimators': 210, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 0.98, 'max_depth': None, 'bootstrap': True}
+Train R2: 0.942
+Test R2: 0.808
 
 ## RF_model for oucome_damage: RandomforestRegressor
 Fitting 5 folds for each of 100 candidates, totalling 500 fits
 Optimally found RF hyperparams after this random search: 
-{'n_estimators': 163, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 111, 'max_depth': 28, 'bootstrap': True}
-Train R2: 1.000
-Test R2: 1.000
+{'n_estimators': 240, 'min_samples_split': 5, 'min_samples_leaf': 6, 'max_features': 0.98, 'max_depth': 5, 'bootstrap': True}
+Train R2: 0.237
+Test R2: 0.040
+
+## RF_model for outcome_damage_inc: RandomforestClassifier (2m15s)
+Fitting 5 folds for each of 100 candidates, totalling 500 fits
+Optimal hyperparameter values according to our random search: 
+{'n_estimators': 300, 'min_samples_split': 8, 'min_samples_leaf': 6, 'max_features': 0.8, 'max_depth': 27, 'bootstrap': True}
+Train accuracy of the refitted model: 0.888
+Test accuracy of the refitted model: 0.738
+              precision    recall  f1-score   support
+
+   no damage       0.76      0.95      0.84      1459
+      damage       0.50      0.14      0.22       519
+
+    accuracy                           0.74      1978
+   macro avg       0.63      0.54      0.53      1978
+weighted avg       0.69      0.74      0.68      1978
 
 
+## RF_model for profit: Halving (21s)
+itting 5 folds for each of 2 candidates, totalling 10 fits
+Optimal hyperparameter values according to our random search: 
+{'n_estimators': 210, 'min_samples_split': 5, 'min_samples_leaf': 6, 'max_features': 0.7, 'max_depth': 16, 'bootstrap': True}
+Train accuracy of the refitted model: 0.886
+Test accuracy of the refitted model: 0.743
+              precision    recall  f1-score   support
+
+   no damage       0.76      0.96      0.85      1459
+      damage       0.54      0.14      0.23       519
+
+    accuracy                           0.74      1978
+   macro avg       0.65      0.55      0.54      1978
+weighted avg       0.70      0.74      0.68      1978
+
+## RF_model fo
 ## Visual evaluation of CV results against accuracy / R2
 for parameters: 'param_max_depth', 'param_min_samples_leaf', 'param_n_estimators'
 - 
@@ -119,14 +183,71 @@ train_V2[train_V2.loc[:,['tenure_yrs','tenure_mts']].isnull().sum(axis=1) == 1].
 
 ## Looked at applying data 'manipulation' to score
 
+## Explainability
+
+Looking at tree-based feature importances we see that according to 
+1. feature importance 
+	0	profit_am	0.346637
+	1	nights_booked	0.323773
+	2	income_am	0.041613
+	3	profit_last_am	0.040630
+	4	presidential	0.036040
+2. Permutation feature importance
+	0	nights_booked	1.371450	0.139278
+	1	profit_am	1.355326	0.057785
+	2	presidential	0.058581	0.002814
+	3	income_am	0.034528	0.000321
+	4	shop_am	0.032894	0.001874
+3. drop-column feature importance
+	0	nights_booked	0.084504
+	1	profit_am	0.044256
+	2	presidential	0.012767
+	3	cab_requests	0.002097
+	4	tenure_mts	0.001627
+	
+	
+Looking at Linear surrogate explainability models we see that according to 
+1. Univariate regression: 
+	Most positive univariate betas:
+		presidential      2.792305
+		gold_status       0.965458
+		lactose_ic        0.619158
+		client_segment    0.321293
+		gluten_ic         0.308610
+
+	Most negative univariate betas:
+		avg_score_pos   -0.231379
+		gender          -0.197266
+		insurance_ic    -0.136384
+		dining_ic       -0.036779
+		divorce         -0.031825
+		
+This techniques indicates other features as more important than tree-based feature importance. 
+
+2. Multiple linear regression models
+             feature      coef
+	0         profit_am  0.389688
+	1     nights_booked -0.315662
+	2      presidential  0.185609
+	3    profit_last_am  0.112224
+	4         income_am  0.102620
+
+The features with the highest coefficients(absolute) are the features that were the most important features from the tree based techniques
 
 
 # Executive summary (prompt in chatgpt)
 
 Write an executive summary to convince a hotel manager to apply the selected list of hotel guests. The list of hotel guests
-was determined running several algorithms on the training data. Cross-validation was applied and following algorithms were used Random-forest, gbm, sVR
+was determined running several algorithms on the training data. Cross-validation was applied to tune hyperparamters and following algorithms were used Random-forest, gbm, sVR.
+
+The best model was selected. 
+
+The gain (152189.787) calculated using the revenue of selection (495762.401) from the best performing model and was compared to the revenue of a random sample (343572.614)
 
 
+
+
+# 
 
 =======================================================================================================================
 
