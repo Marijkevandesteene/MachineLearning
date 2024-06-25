@@ -172,7 +172,11 @@ The features with the highest coefficients(absolute) are the features that were 
 # Executive summary (prompt in chatgpt)
 
 Write an executive summary to convince a hotel manager to apply the selected list of hotel guests. The list of hotel guests
-was determined running several algorithms on the training data. Cross-validation was applied and following algorithms were used Random-forest, gbm, sVR
+was determined running several algorithms on the training data. Cross-validation was applied to tune hyperparamters and following algorithms were used Random-forest, gbm, sVR.
+
+The best model was selected. 
+
+The gain (152189.787) calculated using the revenue of selection (495762.401) from the best performing model and was compared to the revenue of a random sample (343572.614)
 
 
 
