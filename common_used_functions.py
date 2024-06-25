@@ -85,7 +85,7 @@ def drop_col_feat_imp(model, X, y, random_state, verbose=False):
     
     return importances_df_sorted
 
-#
+# https://stackoverflow.com/questions/22518230/creating-a-threshold-coded-roc-plot-in-python
 def plot_roc(y_true, predicted_probs, positive_label=None, thresholds_every=10, title=''):
     """
     A more complex ROC visualization. It will also visualize various cutoffs with annotated text.
@@ -120,7 +120,8 @@ def plot_roc(y_true, predicted_probs, positive_label=None, thresholds_every=10, 
                  color=colorMap(i/len_thresholds));
     plt.show()
 
-
+#Cumulative lift is calculated by evaluating the model’s performance over progressively larger portions of the dataset, which has been sorted based on the model’s predicted probabilities or scores. 
+# https://sid-sharma1990.medium.com/lift-and-cumulative-lift-in-statistics-machine-learning-and-python-7016cc349519
 def regression_lift(y_true, y_pred):
     """
     Compute the lift for regression.
