@@ -85,6 +85,7 @@ def drop_col_feat_imp(model, X, y, random_state, verbose=False):
     
     return importances_df_sorted
 
+#
 def plot_roc(y_true, predicted_probs, positive_label=None, thresholds_every=10, title=''):
     """
     A more complex ROC visualization. It will also visualize various cutoffs with annotated text.
@@ -119,55 +120,6 @@ def plot_roc(y_true, predicted_probs, positive_label=None, thresholds_every=10, 
                  color=colorMap(i/len_thresholds));
     plt.show()
 
-def plot_lift_curve(X,actual_target,model):
-    """ 
-    DESCRIPTION
-    ____________________________________________________________    Function that takes in X features, Y features and model object as input and creates Gain percentage and Lift.
-    
-    PARAMETERS
-    _____________________________________________________________
-       X: DataFrame
-           The X features that are used by the model.
-       actual_target: DataFrame
-            Actual target that is used to train the model.
-       model: fit object
-            The fit object returned by the training algorithm.
-    RETURNS
-    ______________________________________________________________
-       output_df:DataFrame
-            Output dataframe with columns,
-    
-       Max_Scr : Maximum Probability Score for that Decile
-       Min_Scr : Minimum Probability Score for that Decile
-       Actual : Sum of targets captured by the Decile
-       Total : Total population of the Decile
-       Population_perc : Percentage of population in the Decile
-       Per_Events : Percentage of Events in the decile
-       Gain Percentage : Gain percentage
-       Cumulative Population : Cumulative sum of population down the     decile
-       Lift : Lift provided by that particular decile    """
-    avg_tgt = actual_target.sum()/len(actual_target)
-    df_data = X.copy()
-    X_data = df_data.copy()
-    df_data['Actual'] = actual_target
-    df_data['Predict']= model.predict(X_data)
-    y_Prob = pd.DataFrame(model.predict_proba(X_data))
-    df_data['Prob_1']=list(y_Prob[1])
-    df_data.sort_values(by=['Prob_1'],ascending=False,inplace=True)
-    df_data.reset_index(drop=True,inplace=True)
-    df_data['Decile']=pd.qcut(df_data.index,10,labels=False)
-    output_df = pd.DataFrame()
-    grouped = df_data.groupby('Decile',as_index=False)
-    output_df['Max_Scr']=grouped.max().Prob_1
-    output_df['Min_Scr']=grouped.min().Prob_1
-    output_df['Actual']=grouped.sum().Actual
-    output_df['Total']=grouped.count().Actual
-    output_df["Population_perc"] = (output_df["Total"]/len(actual_target))*100
-    output_df['Per_Events'] = (output_df['Actual']/output_df['Actual'].sum())*100
-    output_df['Gain_Percentage'] = output_df.Per_Events.cumsum()
-    output_df["Cumulative_Population"] = output_df.Population_perc.cumsum()
-    output_df["Lift"] = output_df["Gain_Percentage"]/output_df["Cumulative_Population"]
-    return output_df
 
 def regression_lift(y_true, y_pred):
     """
@@ -249,3 +201,53 @@ def cumulative_classification_lift(y_true, y_prob):
     
     return cumulative_lifts
 
+
+def plot_lift_curve(X,actual_target,model):
+    """ 
+    DESCRIPTION
+    ____________________________________________________________    Function that takes in X features, Y features and model object as input and creates Gain percentage and Lift.
+    
+    PARAMETERS
+    _____________________________________________________________
+       X: DataFrame
+           The X features that are used by the model.
+       actual_target: DataFrame
+            Actual target that is used to train the model.
+       model: fit object
+            The fit object returned by the training algorithm.
+    RETURNS
+    ______________________________________________________________
+       output_df:DataFrame
+            Output dataframe with columns,
+    
+       Max_Scr : Maximum Probability Score for that Decile
+       Min_Scr : Minimum Probability Score for that Decile
+       Actual : Sum of targets captured by the Decile
+       Total : Total population of the Decile
+       Population_perc : Percentage of population in the Decile
+       Per_Events : Percentage of Events in the decile
+       Gain Percentage : Gain percentage
+       Cumulative Population : Cumulative sum of population down the     decile
+       Lift : Lift provided by that particular decile    """
+    avg_tgt = actual_target.sum()/len(actual_target)
+    df_data = X.copy()
+    X_data = df_data.copy()
+    df_data['Actual'] = actual_target
+    df_data['Predict']= model.predict(X_data)
+    y_Prob = pd.DataFrame(model.predict_proba(X_data))
+    df_data['Prob_1']=list(y_Prob[1])
+    df_data.sort_values(by=['Prob_1'],ascending=False,inplace=True)
+    df_data.reset_index(drop=True,inplace=True)
+    df_data['Decile']=pd.qcut(df_data.index,10,labels=False)
+    output_df = pd.DataFrame()
+    grouped = df_data.groupby('Decile',as_index=False)
+    output_df['Max_Scr']=grouped.max().Prob_1
+    output_df['Min_Scr']=grouped.min().Prob_1
+    output_df['Actual']=grouped.sum().Actual
+    output_df['Total']=grouped.count().Actual
+    output_df["Population_perc"] = (output_df["Total"]/len(actual_target))*100
+    output_df['Per_Events'] = (output_df['Actual']/output_df['Actual'].sum())*100
+    output_df['Gain_Percentage'] = output_df.Per_Events.cumsum()
+    output_df["Cumulative_Population"] = output_df.Population_perc.cumsum()
+    output_df["Lift"] = output_df["Gain_Percentage"]/output_df["Cumulative_Population"]
+    return output_df
