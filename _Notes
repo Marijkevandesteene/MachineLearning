@@ -1,6 +1,53 @@
+# Explainability
+Looking at tree-based feature importances we see that according to 
+1. feature importance 
+	0	profit_am	0.346637
+	1	nights_booked	0.323773
+	2	income_am	0.041613
+	3	profit_last_am	0.040630
+	4	presidential	0.036040
+2. Permutation feature importance
+	0	nights_booked	1.371450	0.139278
+	1	profit_am	1.355326	0.057785
+	2	presidential	0.058581	0.002814
+	3	income_am	0.034528	0.000321
+	4	shop_am	0.032894	0.001874
+3. drop-column feature importance
+	0	nights_booked	0.084504
+	1	profit_am	0.044256
+	2	presidential	0.012767
+	3	cab_requests	0.002097
+	4	tenure_mts	0.001627
+	
+	
+Looking at Linear surrogate explainability models we see that according to 
+1. Univariate regression: 
+	Most positive univariate betas:
+		presidential      2.792305
+		gold_status       0.965458
+		lactose_ic        0.619158
+		client_segment    0.321293
+		gluten_ic         0.308610
 
-@Dries: fout bij SVcla voor damage occured.
-Door standardizing is de al dan niet damage niet meer binair, maar 
+	Most negative univariate betas:
+		avg_score_pos   -0.231379
+		gender          -0.197266
+		insurance_ic    -0.136384
+		dining_ic       -0.036779
+		divorce         -0.031825
+		
+This techniques indicates other features as more important than tree-based feature importance. 
+
+2. Multiple linear regression models
+             feature      coef
+	0         profit_am  0.389688
+	1     nights_booked -0.315662
+	2      presidential  0.185609
+	3    profit_last_am  0.112224
+	4         income_am  0.102620
+
+The features with the highest coefficients(absolute) are the features that were the most important features from the tree based techniques
+
 
 
 # Vragen::
