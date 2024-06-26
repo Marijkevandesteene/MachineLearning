@@ -214,6 +214,8 @@ Test accuracy of the refitted model: 0.743
 weighted avg       0.70      0.74      0.68      1978
 
 ## RF_model fo
+
+
 ## Visual evaluation of CV results against accuracy / R2
 for parameters: 'param_max_depth', 'param_min_samples_leaf', 'param_n_estimators'
 - 
