@@ -17,3 +17,6 @@ report/ml-exam-report.log
 report/ml-exam-report.out
 report/ml-exam-report.pdf
 report/ml-exam-report.synctex.gz
+
+output/score_prep_without_outliers.csv
+output/train_v2_prep_without_outliers.csv
