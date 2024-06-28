@@ -3,6 +3,8 @@
 venv
 .idea
 
+__pycache__
+
 # ignore tex output
 report/ml-exam-report.aux
 report/ml-exam-report.bbl
