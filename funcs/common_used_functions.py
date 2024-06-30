@@ -1,14 +1,8 @@
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
-import statsmodels.api as sm
-from statsmodels.distributions.empirical_distribution import ECDF
-import scipy.stats as stats
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import roc_curve
-
-from pathlib import Path
 
 # Defining the learning curve function
 def plot_learning_curve(model, X, y, cv, num_show, metric=None):
