@@ -13,6 +13,7 @@ Besides that :
 - `funcs`: contains some common functions
 - `input`: contains the input data
 - `models`: contains cached version of model optimization scans for fast re-loading
+- `output`: output van data preparation, deliverables 
 
 The **playground notebooks** were moved to the `playground` subfolder after finalization
 
