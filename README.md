@@ -6,6 +6,7 @@ Deliverables:
 - The final notebook is in `ExamDataMining_Final.ipynb`
 - The executive summary is in : `Executive sumary.docx`
 - The final list of selected clients is in : `output/selected_guests.csv`
+- The final list of score with predictions: `output/score_predicted.csv`
 
 Besides that : 
 
